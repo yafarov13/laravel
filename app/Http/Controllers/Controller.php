@@ -12,11 +12,24 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function getCategory($category = null): array {
+        $categoryList = ["all", "sport", "culture", "tech", "world"];
+
+        if ($category) {
+            if (in_array($category, $categoryList)) {
+                return ['category' => $category];
+            } else {
+                return ['category' => 'all'];
+            }
+        }
+        return $categoryList;
+    }
+
     public function getNews(?int $id = null): array
     {
         $faker = Factory::create();
         $statusList = ["DRAFT", "ACTIVE", "BLOCKED"];
-
+        
         if ($id) {
             return [
                 'id' => $id,
