@@ -14,7 +14,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        echo "Список новостей";
+        return view('admin.news.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        echo "Добавление новости";
+        return view('admin.news.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.news.edit');
     }
 
     /**
