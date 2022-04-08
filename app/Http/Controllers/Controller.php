@@ -13,10 +13,10 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getCategory($category = null): array {
-        $categoryList = ["all", "sport", "culture", "tech", "world"];
+        $categoryList = ["all" => "Все новости", "sport" => "Спорт", "culture" => "Культура", "tech" => "Техника" , "world" => "В мире"];
 
         if ($category) {
-            if (in_array($category, $categoryList)) {
+            if (array_key_exists($category, $categoryList)) {
                 return ['category' => $category];
             } else {
                 return ['category' => 'all'];

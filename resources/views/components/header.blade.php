@@ -6,10 +6,14 @@
             </div>
         </div>
         <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a href="{{route('news')}}" class="navbar-brand d-flex align-items-center">
+            <div class="container" style="justify-content: left">
+                <a href="/" class="navbar-brand d-flex align-items-center">
                     
-                    <strong>Список новостей</strong>
+                    <strong>Главная</strong>
+                </a>
+                <a href="{{route('category')}}" class="navbar-brand d-flex align-items-center">
+                    
+                    <strong>Категории новостей</strong>
                 </a>
             </div>
         </div>
