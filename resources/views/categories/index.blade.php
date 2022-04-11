@@ -10,7 +10,7 @@
 <div class="category">
     <ul>
         <?php foreach ($categories as $category => $categoryRus) : ?>
-            <li><a href="<?= route('category.showNews', ['category' => $category]) ?>"><?= $categoryRus ?></a></li><br>
+            <li><a class="navbar-brand new-edited-text" href="<?= route('category.showNews', ['category' => $category]) ?>"><?= $categoryRus ?></a></li><br>
         <?php endforeach; ?>
     </ul>
 </div>

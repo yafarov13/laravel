@@ -1,0 +1,20 @@
+header a.navbar-brand {
+    margin-right: 2rem;
+}
+
+header a.navbar-brand:hover strong {
+    color:red;
+}
+
+.new-edited-text {
+    color:black;
+    text-decoration: none;
+}
+
+.new-edited-text:hover {
+    color:red;
+}
+
+strong.active {
+    color: yellow;
+}
