@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\News;
 use Faker\Factory;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -12,48 +14,47 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public static function getCategory($category = null): array {
-        $categoryList = ["all" => "Все новости", "sport" => "Спорт", "culture" => "Культура", "tech" => "Техника" , "world" => "В мире"];
+    public static function getCategory($category = null): array
+    {
+        //     $categoryList = ["all" => "Все новости", "sport" => "Спорт", "culture" => "Культура", "tech" => "Техника" , "world" => "В мире"];
+        $categories = app(Category::class)->getCategories();
+        //dd($categories);
+        $categoryList = [];
+        foreach ($categories as $oneCategory) {
+            $categoryList[str_replace(" ", "", $oneCategory->title)] = $oneCategory->title;
+        }
 
         if ($category) {
+            //dd($categoryList, $categoryOne);
             if (array_key_exists($category, $categoryList)) {
-                return ['category' => $category];
-            } else {
-                return ['category' => 'all'];
+                //  dd($categoryList[$category]);
+                $category = app(Category::class)->getCategoryByTitle($categoryList[$category]);
+
+                //dd($category[0]);  
+                return $category;
             }
         }
+
+
+        /*   if ($category) {
+           if (array_key_exists($category, $categoryList)) {
+                return ['category' => $category];
+            } else {
+               return ['category' => 'all'];
+            }
+        }  */
         return $categoryList;
     }
 
-    public function getNews(?int $id = null): array
+    public function getNews(int $id = null): array
     {
-        $faker = Factory::create();
-        $statusList = ["DRAFT", "ACTIVE", "BLOCKED"];
-        
+        $news = app(News::class)->getNews();
+
         if ($id) {
-            return [
-                'id' => $id,
-                'title' => $faker->jobTitle(),
-                'author' => $faker->userName(),
-                'image' => $faker->imageUrl(200, 150),
-                'status' => $statusList[mt_rand(0, 2)],
-                'description' => "<strong>" . $faker->text(100) . "</strong>"
-            ];
+            $newsId = app(News::class)->getNewsById($id);
+            return $newsId;
         }
-
-        $data = [];
-        for ($i = 0; $i < 10; $i++) {
-            $id = $i + 1;
-            $data[] = [
-                'id' => $id,
-                'title' => $faker->jobTitle(),
-                'author' => $faker->userName(),
-                'image' => $faker->imageUrl(200, 150),
-                'status' => $statusList[mt_rand(0, 2)],
-                'description' => "<strong>" . $faker->text(100) . "</strong>"
-            ];
-        }
-
-        return $data;
+  
+        return $news;    
     }
 }

@@ -21,4 +21,9 @@ class Category extends Model
     {
         return DB::table($this->table)->find($id);
     }
+
+    public function getCategoryByTitle($title): mixed
+    {
+        return DB::table($this->table)->where("title", "=", $title)->get()->toArray();
+    }
 }

@@ -16,20 +16,22 @@ class CategoryController extends Controller
     {
         $news = $this->getNews();
         $category = $this->getCategory($category);
+       // dd($category[0]);
 
         return view('categories.showNews', [
             'newsList' => $news,
-            'category' => $category
+            'category' => $category[0]
         ]);
     }
 
-    public function showNewsId($category, int $id)
+     public function showNewsId($category, int $id)
     {
         $category = $this->getCategory($category);
-
+        $news = $this->getNews($id);
+        //dd($news[0]);
         return view('categories.showNewsId', [
-            'news' => $this->getNews($id),
-            'category' => $category
+            'news' => $news[0],
+            'category' => $category[0]
         ]);
-    }
+    } 
 }

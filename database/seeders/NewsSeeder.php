@@ -6,6 +6,7 @@ use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Object_;
 
 class NewsSeeder extends Seeder
 {
@@ -16,16 +17,19 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('news')->insert($this->getData());
+        $categories = DB::table('categories')->pluck("id")->toArray();
+        foreach ($categories as $categoryId) {
+            DB::table('news')->insert($this->getData($categoryId));
+        }
     }
 
-    public function getData(): array 
+    public function getData($categoryId): array
     {
         $faker = Factory::create();
         $data = [];
         for ($i = 0; $i < 10; $i++) {
             $data[] = [
-                'category_id' =>1,
+                'category_id' => $categoryId,
                 'title' => $faker->jobTitle(),
                 'status' => 'ACTIVE',
                 'author' => $faker->userName(),
@@ -36,5 +40,4 @@ class NewsSeeder extends Seeder
 
         return $data;
     }
-
 }
