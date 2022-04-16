@@ -21,9 +21,40 @@
 
     </div>
 </div>
-<x-alert type="danger" message="Сообщение об ошибке" />
+
+<div class="table-responsive">
+    <table class="table table-boardered">
+        <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Опции</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($categories as $category)
+            <tr>
+                <td>{{ $category->id }}</td>
+                <td>{{ $category->title }}</td>
+                <td>{{ $category->description }}</td>
+                <td>
+                    <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
+                    <a href="javascript:;" style="color:red;">Удл.</a>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="4">Записей нет
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<!-- <x-alert type="danger" message="Сообщение об ошибке" />
 <x-alert type="success" message="Сообщение об успехе" />
-<x-alert type="info" message="Информационное сообщение" />
+<x-alert type="info" message="Информационное сообщение" /> -->
 @endsection
 <!-- @push('js')
     <script>alert("Welcome")</script>
