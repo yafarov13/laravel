@@ -32,29 +32,42 @@ class Controller extends BaseController
 
                 //dd($category[0]);  
                 return $category;
+            } else {
+                return [];
             }
         }
 
-
-        /*   if ($category) {
-           if (array_key_exists($category, $categoryList)) {
-                return ['category' => $category];
-            } else {
-               return ['category' => 'all'];
-            }
-        }  */
         return $categoryList;
     }
 
     public function getNews(int $id = null): array
     {
-        $news = app(News::class)->getNews();
-
         if ($id) {
             $newsId = app(News::class)->getNewsById($id);
             return $newsId;
         }
+
+        $news = app(News::class)->getNews();
   
         return $news;    
     }
+
+    public function getNewsByCategory($category, int $id = null): array
+    {
+        if ($id) {
+            $newsId = app(News::class)->getNewsById($id);
+            return $newsId;
+        }
+
+        $categories = app(Category::class)->getCategories();
+        $categoryList = [];
+        foreach ($categories as $oneCategory) {
+            $categoryList[str_replace(" ", "", $oneCategory->title)] = $oneCategory->title;
+        }
+        //dd($categoryList[$category]);
+        $news = app(News::class)->getNewsByCategoryTitle($categoryList[$category]);
+  
+        return $news;    
+    }
+
 }

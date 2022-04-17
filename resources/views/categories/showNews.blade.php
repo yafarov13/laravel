@@ -21,7 +21,7 @@
                 <p>Категория новости: {{$category->title }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="#" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                        <a href="{{ route('category.showNewsId', ['category' => str_replace(" ", "", $category->title), 'id' => $news->id]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                     </div>
                     <small class="text-muted"><em>{{ $news->status }}</em></small>
                     <small class="text-muted"><em>{{ $news->author }}</em></small>
