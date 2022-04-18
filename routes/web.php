@@ -26,10 +26,10 @@ Route::get('/', function () {
 
 
 Route::get('/news', [NewsController::class, 'index'])->name('news');
-Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '\d+')->name('news.show');
+Route::get('/news/{news}', [NewsController::class, 'show'])->where('news', '\d+')->name('news.show');
 Route::get('/categories', [CategoryController::class, 'index'])->name('category');
 Route::get('/categories/{category}', [CategoryController::class, 'showNews'])->name('category.showNews');
-Route::get('/categories/{category}/{id}', [CategoryController::class, 'showNewsId'])->name('category.showNewsId');
+Route::get('/categories/{category}/{news}', [CategoryController::class, 'showNewsId'])->name('category.showNewsId');
 Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
 Route::post('/feedback/sent', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::get('/agregator', [AgregatorController::class, 'index'])->name('agregator.index');
@@ -42,3 +42,4 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('news', AdminNewsController::class);
 });
+

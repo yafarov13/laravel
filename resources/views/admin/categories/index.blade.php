@@ -23,12 +23,14 @@
 </div>
 
 <div class="table-responsive">
+    @include('inc.messages')
     <table class="table table-boardered">
         <thead>
             <tr>
                 <th>#ID</th>
                 <th>Заголовок</th>
                 <th>Описание</th>
+                <th>Количество новостей</th>
                 <th>Опции</th>
             </tr>
         </thead>
@@ -38,6 +40,7 @@
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->title }}</td>
                 <td>{{ $category->description }}</td>
+                <td>{{ $category->news_count }}</td>
                 <td>
                     <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
                     <a href="javascript:;" style="color:red;">Удл.</a>
@@ -50,6 +53,7 @@
             @endforelse
         </tbody>
     </table>
+    {{ $categories->links() }}
 </div>
 
 <!-- <x-alert type="danger" message="Сообщение об ошибке" />

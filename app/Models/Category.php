@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class Category extends Model
@@ -12,18 +13,22 @@ class Category extends Model
 
     protected $table="categories";
 
-    public function getCategories(): array
-    {
-       return DB::table($this->table)->select("id", "title", "description")->get()->toArray();
+    protected $fillable=['title', 'description'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function scopeActive($query) {
+        return $query->where('is_active', true) ;   
     }
 
-    public function getCategoryById(int $id): mixed
-    {
-        return DB::table($this->table)->find($id);
-    }
+    //protected $guarded = ['id']; от обратного - не обновлять только ID
 
-    public function getCategoryByTitle($title): mixed
+    //Relations 
+    public function news(): hasMany 
     {
-        return DB::table($this->table)->where("title", "=", $title)->get()->toArray();
-    }
+        return $this->hasMany(News::class, 'category_id', 'id');
+    }    
+    
 }

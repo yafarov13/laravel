@@ -9,8 +9,8 @@
 @section('content')
 <div class="category">
     <ul>
-        <?php foreach ($categories as $category => $categoryRus) : ?>
-            <li><a class="navbar-brand new-edited-text" href="<?= route('category.showNews', ['category' => $category]) ?>"><?= $categoryRus ?></a></li><br>
+        <?php foreach ($categories as $category) : ?>
+            <li><a class="navbar-brand new-edited-text" href="{{ route('category.showNews', ['category' => $category]) }}">{{ $category->title }}</a></li><br>
         <?php endforeach; ?>
     </ul>
 </div>

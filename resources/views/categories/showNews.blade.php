@@ -2,7 +2,7 @@
 @section('header')
 <div class="row py-lg-5">
     <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Список новостей категории: {{$category->title }}</h1>
+        <h1 class="fw-light">Список новостей категории: {{ $category->title }}</h1>
     </div>
 </div>
 @endsection
@@ -14,14 +14,14 @@
         <div class="card shadow-sm">
             <img src=" {{$news->image}} ">
             <div class="card-body">
-                <strong><a href="{{ route('category.showNewsId', ['category' => str_replace(" ", "", $category->title), 'id' => $news->id]) }}">
+                <strong><a href="{{ route('category.showNewsId', ['category' => $category, 'news' => $news]) }}">
                         {{$news->title}}
                     </a></strong>
                 <p class="card-text">{!! $news->description !!}</p>
-                <p>Категория новости: {{$category->title }}</p>
+                <p>Категория новости: {{$news->title }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="{{ route('category.showNewsId', ['category' => str_replace(" ", "", $category->title), 'id' => $news->id]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                        <a href="{{ route('category.showNewsId', ['category' => $category, 'news' => $news]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                     </div>
                     <small class="text-muted"><em>{{ $news->status }}</em></small>
                     <small class="text-muted"><em>{{ $news->author }}</em></small>
