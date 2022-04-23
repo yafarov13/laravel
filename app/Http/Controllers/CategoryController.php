@@ -24,7 +24,7 @@ class CategoryController extends Controller
                 'newsList' => News::where([
                     ['category_id', '=', $category->id],
                     ['status', '=', 'ACTIVE']
-                ])->get()
+                ])->paginate(5)
             ]);
     }
 

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\EditRequest;
 use App\Models\Category;
 use App\Models\News;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
+
 
 class NewsController extends Controller
 {
@@ -42,10 +45,6 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
         $news = News::create($request->only(['category_id', 'title', 'status', 'author', 'image', 'description']));
 
         if($news) {
@@ -89,13 +88,15 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  EditRequest $request
+     * @param  News $news
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(EditRequest $request, News $news): RedirectResponse
     {
-        $status = $news->fill($request->only(['category_id', 'title', 'status', 'author', 'image', 'description']))->save();
+        //dd($request->validated());
+
+        $status = $news->fill($request->validated())->save();
 
         if ($status) {
             return redirect()->route('admin.news.index')
@@ -108,10 +109,10 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $id)
     {
         //
     }
