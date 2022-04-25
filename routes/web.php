@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Account\IndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\UserController as AdminUsersController;
 use App\Http\Controllers\AgregatorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NewsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,10 +39,38 @@ Route::get('/agregator', [AgregatorController::class, 'index'])->name('agregator
 Route::post('/agregator/sent', [AgregatorController::class, 'store'])->name('agregator.store');
 
 
-//Admin routes
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/', AdminController::class)->name('index');
-    Route::resource('categories', AdminCategoryController::class);
-    Route::resource('news', AdminNewsController::class);
+Route::group(['middleware' => 'auth'], function () {
+    
+    Route::group(['prefix' => 'account', 'as' => 'account.'], function(){
+        Route::get('/', IndexController::class)->name('index');
+        //logout
+        Route::get('logout', function(){
+            Auth::logout();
+            return redirect()->route('login');
+        })->name('logout');
+    });
+    
+    //Admin routes
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.check'], function () {
+        Route::get('/', AdminController::class)->name('index');
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('news', AdminNewsController::class);
+        Route::resource('users', AdminUsersController::class);
+    });
 });
 
+
+
+Route::get('session', function () {
+    $name = 'exampleSession';
+    if (session()->has($name)) {
+        dd(session()->all(), session()->get($name));
+        session()->forget($name);
+    }
+    session([$name => 'test']);
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

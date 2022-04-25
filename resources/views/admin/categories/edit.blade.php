@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Редаклитровать категорию @parent
+Редактировать категорию @parent
 @endsection
 @section('content')
 

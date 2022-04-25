@@ -1,26 +1,43 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <header>
-        <div class="collapse bg-dark" id="navbarHeader">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Аккаунт</title>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-            
-            </div>
-        </div>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container" style="justify-content: left">
-                <a href="/" class="navbar-brand d-flex align-items-center">
-                    
-                    <strong class="@if(request()->routeIs('start')) active @endif">Главная</strong>
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Главная
                 </a>
-                <a href="{{route('category')}}" class="navbar-brand d-flex align-items-center">
-                    
-                    <strong class="@if(request()->routeIs('category*')) active @endif">Категории новостей</strong>
-                </a>
-                <a href="{{route('feedback.index')}}" class="navbar-brand d-flex align-items-center">
-                    
-                    <strong class="@if(request()->routeIs('feedback.*')) active @endif">Оставить отзыв</strong>
-                </a>
-            </div>
-            <ul class="navbar-nav ms-auto login-text-block">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -40,7 +57,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end exit-button" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -54,5 +71,13 @@
                             </li>
                         @endguest
                     </ul>
-        </div>
-    </header>
+                </div>
+            </div>
+        </nav>
+
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+</body>
+</html>

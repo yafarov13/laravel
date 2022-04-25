@@ -18,3 +18,20 @@ header a.navbar-brand:hover strong {
 strong.active {
     color: yellow;
 }
+
+.login-text-block  {
+    flex-direction: row;
+    margin-right: 20px;
+    margin-left: inherit
+}
+
+.login-text-block li { 
+    margin-left: 20px;
+}
+
+
+.exit-button.show {
+    position: absolute;
+    min-width: auto;
+}
+
