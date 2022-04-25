@@ -77,14 +77,14 @@ class NewsTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_category_list_successful_response(): void
+    /* public function test_category_list_successful_response(): void
     {
         $categories = Controller::getCategory();
         $categories = array_keys($categories);
 
         $response = $this->get("/categories/" . $categories[mt_rand(0, count($categories)-1)]);
         $response->assertStatus(200);
-    }
+    } */
 
 
 

@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\EditRequest;
 use App\Models\Category;
 use App\Models\News;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
 {
@@ -43,15 +47,15 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $news = News::create($request->only(['category_id', 'title', 'status', 'author', 'image', 'description']));
+        $news = News::create($request->validated());
 
         if($news) {
             return redirect()->route('admin.news.index')
-            ->with('success', 'Новость успешно добавлена');
+            ->with('success', __('messages.admin.news.create.success'));
         } else {
-            return back()->with('error', 'Не удалось добавить новость');
+            return back()->with('error', __('messages.admin.news.create.fail'));
         }
 
         /* return response()->json(
@@ -100,9 +104,9 @@ class NewsController extends Controller
 
         if ($status) {
             return redirect()->route('admin.news.index')
-                ->with('success', 'Запись обновлена');
+                ->with('success', trans('messages.admin.news.update.success'));
         } else {
-            return back()->with('error', 'Не удалось обновить запись');
+            return back()->with('error', __('messages.admin.news.update.fail'));
         }
     }
 
@@ -112,8 +116,15 @@ class NewsController extends Controller
      * @param  News $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $id)
+    public function destroy(News $news): JsonResponse
     {
-        //
+        try{
+			 $news->delete();
+
+			 return response()->json(['status' => 'ok']);
+		}catch (Exception $e) {
+			Log::error("News wasn't delete");
+			return response()->json(['status' => 'error'], 400);
+		}
     }
 }

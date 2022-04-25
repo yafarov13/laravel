@@ -37,11 +37,15 @@ class EditRequest extends FormRequest
 
     public function messages()
     {
-        return parent::messages();
+        return [
+            'required' => 'Поле :attribute необходимо заполнить.'
+        ];
     }
 
     public function attributes()
     {
         return parent::attributes();
+
+        //['title' => 'Заголовок'];
     }
 }

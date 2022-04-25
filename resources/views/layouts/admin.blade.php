@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@section('title') - Панель администратора @show</title>
 
@@ -100,6 +101,8 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
     <script src="{{ asset('js/dashboard.js')}}"></script>
     <!-- @stack('js') -->
+    @stack('js');
+
 </body>
 
 </html>

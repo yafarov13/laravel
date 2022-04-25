@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 
 class CategoryController extends Controller
@@ -105,8 +109,16 @@ class CategoryController extends Controller
      * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): JsonResponse
     {
-        //
+        try {
+            $category->delete();
+
+            return response()->json(['status' => 'ok']);
+        } catch(Exception $e) {
+            Log::error("Category wasn't delete");
+
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

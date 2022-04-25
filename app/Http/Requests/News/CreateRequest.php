@@ -13,7 +13,7 @@ class CreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,19 @@ class CreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        return
+            [
+                'category_id' => ['required', 'integer', 'exists:news'],
+                'title' => ['required', 'string', 'min: 3', 'max: 50'],
+                'status' => ['required', 'string', 'min:5', 'max:7'],
+                'author' => ['required', 'string'],
+                'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
+                'description' => ['nullable', 'string']
+            ];
     }
+
+   
 }
+

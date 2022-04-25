@@ -43,7 +43,8 @@
                 <td>{{ $category->news_count }}</td>
                 <td>
                     <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
-                    <a href="javascript:;" style="color:red;">Удл.</a>
+                    &nbsp;
+                    <a href="javascript:;" class="delete" id="{{ $category->id }}" style="color:red;">Удл.</a>
                 </td>
             </tr>
             @empty
@@ -60,6 +61,37 @@
 <x-alert type="success" message="Сообщение об успехе" />
 <x-alert type="info" message="Информационное сообщение" /> -->
 @endsection
-<!-- @push('js')
-    <script>alert("Welcome")</script>
-@endpush -->
+
+
+@push('js')
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const item = document.querySelectorAll(".delete");
+            item.forEach(function (el, index) {
+                el.addEventListener("click", function () {
+                    const id = this.getAttribute("id");
+                    if (confirm(`Подтвердите удаление категории с #ID ${id} ?`)) {
+                        //send id on backend
+                        send(`/admin/categories/${id}`).then(() => {
+                            alert("Категория была удалена");
+                            location.reload();
+                        });
+                    }
+                });
+            });
+        });
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                        .getAttribute('content')
+                }
+            });
+            let result = await response.json();
+            return result.ok;
+        }
+    </script>
+@endpush
