@@ -4,8 +4,10 @@ use App\Http\Controllers\Account\IndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\UserController as AdminUsersController;
 use App\Http\Controllers\AgregatorController;
+use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\NewsController;
@@ -56,6 +58,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('news', AdminNewsController::class);
         Route::resource('users', AdminUsersController::class);
+
+        Route::get('parser', ParserController::class)->name('parser');
     });
 });
 
@@ -72,5 +76,15 @@ Route::get('session', function () {
 
 
 Auth::routes();
+
+//socials routes
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/auth/{network}/redirect', [SocialController::class, 'index'])
+    ->where('network', '\w+')
+    ->name('auth.redirect');
+    Route::get('/auth/{network}/callback', [SocialController::class, 'callback'])
+    ->where('network', '\w+')
+    ->name('auth.callback');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
