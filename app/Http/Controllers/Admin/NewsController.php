@@ -9,6 +9,7 @@ use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\EditRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Services\UploadService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -49,7 +50,15 @@ class NewsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $news = News::create($request->validated());
+        
+        $validated = $request->validated();
+        
+        if($request->hasFile('image')) {
+            $service = app(UploadService::class);
+            $validated['image'] = $service->uploadFile($request->file('image'));
+        }
+        //dd($validated);
+        $news = News::create($validated);
 
         if($news) {
             return redirect()->route('admin.news.index')
@@ -98,9 +107,15 @@ class NewsController extends Controller
      */
     public function update(EditRequest $request, News $news): RedirectResponse
     {
-        //dd($request->validated());
+        $validated = $request->validated();
+        
+        if($request->hasFile('image')) {
+            $service = app(UploadService::class);
+            $validated['image'] = $service->uploadFile($request->file('image'));
+        }
+        //dd($request->file('image'), $validated['image']);
 
-        $status = $news->fill($request->validated())->save();
+        $status = $news->fill($validated)->save();
 
         if ($status) {
             return redirect()->route('admin.news.index')

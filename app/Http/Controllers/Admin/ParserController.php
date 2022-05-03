@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Parser;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParser;
+use App\Models\Source;
 use Illuminate\Http\Request;
 
 
@@ -18,6 +20,13 @@ class ParserController extends Controller
      */
     public function __invoke(Request $request, Parser $parser)
     {
-        dd($parser->setUrl('https://news.yandex.ru/sport.rss')->getNews());
+        $urls = Source::get();
+        
+        foreach ($urls as $url) {
+            $link = $url->url;
+            dispatch(new NewsParser($link));
+        }
+
+        return response("Парсинг стартовал");
     }
 }

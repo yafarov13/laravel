@@ -6,13 +6,16 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
     public function index()
     {
+        $news = News::all();
+        //dd(Storage::disk('public')->url($news[0]->image));
         return view('news.index', [
-            'newsList' => News::all()
+            'newsList' => News::paginate(10)
         ]);
     }
 

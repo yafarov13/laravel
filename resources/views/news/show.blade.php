@@ -8,7 +8,7 @@
 @endsection
 @section('content')
 <div class="news">
-    <img src="{{$news['image']}}">
+    <img src="@if (str_starts_with($news->image, 'http')) {{ $news->image }} @else {{ Storage::url($news->image) }} @endif" style="width: 700px">
     <br>
     <p>Статус: <em>{{$news['status']}}</em></p>
     <p>Автор: <em>{{$news['author']}}</em></p>

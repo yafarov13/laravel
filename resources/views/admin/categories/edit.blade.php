@@ -33,6 +33,3 @@
 </div>
 
 @endsection
-<!-- @push('js')
-    <script>alert("Welcome")</script>
-@endpush -->

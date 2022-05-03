@@ -12,7 +12,7 @@
     @forelse ($newsList as $news)
     <div class="col">
         <div class="card shadow-sm">
-            <img src=" {{$news->image}} ">
+            <img src="@if (str_starts_with($news->image, 'http')) {{ $news->image }} @else {{ Storage::url($news->image) }} @endif">
             <div class="card-body">
                 <strong><a href="{{ route('category.showNewsId', ['category' => $category, 'news' => $news]) }}">
                         {{$news->title}}

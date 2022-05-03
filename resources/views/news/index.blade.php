@@ -12,7 +12,7 @@
     @forelse ($newsList as $news)
     <div class="col">
         <div class="card shadow-sm">
-            <img src=" {{$news->image}} ">
+            <img src="@if (str_starts_with($news->image, 'http')) {{ $news->image }} @else {{ Storage::url($news->image) }} @endif">
             <div class="card-body">
                 <strong><a href="{{ route('news.show', ['news' => $news]) }}">
                         {{$news->title}}
@@ -27,6 +27,7 @@
                     <small class="text-muted"><em>{{ $loop->index + 1 }}</em></small>
                 </div>
             </div>
+            
         </div>
     </div>
 
@@ -34,4 +35,6 @@
     <h2>Новостей нет</h2>
     @endforelse
 </div>
+{{ $newsList->links() }}
 @endsection
+

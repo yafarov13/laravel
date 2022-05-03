@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Редаклитровать новость @parent
+Редактировать новость @parent
 @endsection
 @section('content')
 
@@ -16,7 +16,7 @@
 
 <div class="raw">
     @include('inc.messages')
-    <form method="post" action={{ route('admin.news.update', ['news'=> $news] ) }}>
+    <form method="post" enctype="multipart/form-data" action={{ route('admin.news.update', ['news'=> $news] ) }}>
         @csrf
         @method('put')
         <div class="form-group">
@@ -63,6 +63,13 @@
 </div>
 
 @endsection
-<!-- @push('js')
-    <script>alert("Welcome")</script>
-@endpush -->
+@push('js')
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+     ClassicEditor
+        .create( document.querySelector( '#description' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+@endpush

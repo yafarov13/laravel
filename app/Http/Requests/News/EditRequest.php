@@ -30,7 +30,7 @@ class EditRequest extends FormRequest
                 'title' => ['required', 'string', 'min: 3', 'max: 50'],
                 'status' => ['required', 'string', 'min:5', 'max:7'],
                 'author' => ['required', 'string'],
-                'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
+                'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,gif'],
                 'description' => ['nullable', 'string']
             ];
     }
